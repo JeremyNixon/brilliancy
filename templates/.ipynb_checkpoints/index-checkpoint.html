@@ -1,0 +1,773 @@
+<html><head><base href="." />
+<title>Mathematical Brilliancy: Competitive Creative Genius</title>
+<style>
+:root {
+    --primary: #2A0944;
+    --secondary: #3B185F;
+    --accent: #FFD700;
+    --text: #FFF9E8;
+    --success: #FFB800;
+    --warning: #FFC93C;
+}
+
+@keyframes sparkle {
+    0% {
+        transform: translate(0, 0) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(1);
+        opacity: 0;
+    }
+}
+
+.sparkle {
+    position: absolute;
+    pointer-events: none;
+    width: 4px;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 50%;
+}
+
+body {
+    margin: 0;
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--primary);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.landing, .game {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+.landing {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+}
+
+.game {
+    display: none;
+    opacity: 0;
+}
+
+.title {
+    font-size: 4em;
+    margin-bottom: 0.5em;
+    color: var(--accent);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    }
+    to {
+        text-shadow: 0 0 30px rgba(255, 215, 0, 0.8),
+                     0 0 40px rgba(255, 215, 0, 0.3);
+    }
+}
+
+.start-btn {
+    font-size: 1.5em;
+    padding: 1em 2em;
+    border: none;
+    border-radius: 50px;
+    background: var(--accent);
+    color: var(--primary);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.start-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+
+    
+.game-container {
+    width: 90%;
+    max-width: 1200px;
+    height: auto;
+    min-height: 80%;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    padding: 1em;
+}
+
+.input-section {
+    flex: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timer {
+    font-size: 2em;
+    margin-bottom: 1em;
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.topic {
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    text-align: center;
+    padding: 0 1em;
+}
+
+.idea-input {
+    width: 100%;
+    padding: 1em;
+    font-size: 1.2em;
+    border: 2px solid var(--accent);
+    border-radius: 10px;
+    background: var(--secondary);
+    color: var(--text);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+.scoreboard {
+    flex: none;
+    width: 100%;
+    background: var(--secondary);
+    border-radius: 10px;
+    padding: 1em;
+    max-height: 50vh;
+    overflow-y: auto;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+/* Add some responsive adjustments for the landing page */
+@media (max-width: 768px) {
+    .title {
+        font-size: 3em;
+        text-align: center;
+        padding: 0 1em;
+    }
+
+    .topic-selector {
+        width: 90%;
+    }
+
+    .preset-topics {
+        grid-template-columns: 1fr;
+    }
+
+    .final-score {
+        width: 90%;
+        max-width: 400px;
+    }
+}
+
+.idea-entry {
+    margin-bottom: 1em;
+    padding: 1em;
+    background: var(--primary);
+    border-radius: 5px;
+    animation: slideIn 0.3s ease;
+    border: 1px solid var(--accent);
+}
+
+.score {
+    font-size: 1.2em;
+    color: var(--accent);
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.final-score {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--secondary);
+    padding: 2em;
+    border-radius: 10px;
+    text-align: center;
+    display: none;
+    border: 3px solid var(--accent);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.average-score {
+    color: var(--accent);
+    font-size: 1.2em;
+    margin-top: 1em;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+}
+
+.lightning-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.lightning {
+    position: absolute;
+    width: 100px;
+    height: 200px;
+    opacity: 0;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+}
+
+@keyframes lightning-flash {
+    0% { opacity: 0; }
+    10% { opacity: 0.8; }
+    20% { opacity: 0.2; }
+    30% { opacity: 0.9; }
+    40%, 100% { opacity: 0; }
+}
+
+.landing, .game {
+    position: relative;
+    z-index: 2;
+}
+    
+.feedback-toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%);
+    background: var(--secondary);
+    color: var(--text);
+    padding: 1em 2em;
+    border-radius: 10px;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    z-index: 1000;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.feedback-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.idea-entry .feedback {
+    color: var(--accent);
+    font-size: 0.9em;
+    margin-top: 0.5em;
+    opacity: 0.8;
+}
+
+.topic-selector {
+    margin-bottom: 2em;
+    width: 80%;
+    max-width: 600px;
+}
+
+.topic-options {
+    background: var(--secondary);
+    padding: 1.5em;
+    border-radius: 15px;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.topic-options h3 {
+    color: var(--accent);
+    margin-top: 0;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.preset-topics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1em;
+    margin-bottom: 1em;
+}
+
+.topic-btn {
+    background: var(--primary);
+    color: var(--text);
+    border: 1px solid var(--accent);
+    padding: 0.8em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.topic-btn:hover {
+    background: var(--accent);
+    color: var(--primary);
+}
+
+.topic-btn.selected {
+    background: var(--accent);
+    color: var(--primary);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.custom-topic {
+    margin-top: 1.5em;
+}
+
+.custom-topic-input {
+    width: 100%;
+    padding: 1em;
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    background: var(--primary);
+    color: var(--text);
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+.custom-topic-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.custom-topic-input::placeholder {
+    color: rgba(255, 249, 232, 0.5);
+}
+
+    
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Brilliancy: Where creative minds compete and genius emerges">
+    
+    <!-- Favicon Tags -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/vZEEIdI.png">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/vZEEIdI.png">
+    <link rel="shortcut icon" type="image/png" href="https://i.imgur.com/vZEEIdI.png">
+    
+    <!-- Open Graph Meta Tags for Social Media & Messaging -->
+    <meta property="og:title" content="Brilliancy: Competitive Creative Genius">
+    <meta property="og:description" content="Brilliancy: Where creative minds compete and genius emerges">
+    <meta property="og:image" content="https://i.imgur.com/IZAfayY.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="512">
+    <meta property="og:image:height" content="512">
+    <meta property="og:url" content="https://brilliancy.live">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Brilliancy: Competitive Creative Genius">
+    <meta name="twitter:description" content="Brilliancy: Where creative minds compete and genius emerges">
+    <meta name="twitter:image" content="https://i.imgur.com/IZAfayY.png">
+    
+    <!-- Additional Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="lightning-container"></div>
+    <div class="landing">
+        <h1 class="title">Mathematical Brilliancy</h1>
+        <button class="start-btn">Enter the Creative Zone</button>
+    </div>
+
+    <div class="game">
+        <div class="game-container">
+            <div class="input-section">
+                <div class="timer">10:00</div>
+                <div class="topic">Loading topic...</div>
+                <input type="text" class="idea-input" placeholder="Type your brilliant idea here...">
+            </div>
+            <div class="scoreboard">
+                <h2>Ideas & Scores</h2>
+                <div class="ideas-list"></div>
+                <div class="average-score">Average top 3: 0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="final-score">
+        <h2>Game Over!</h2>
+        <p>Your final score: <span class="final-score-value">0</span></p>
+        <button class="start-btn">Play Again</button>
+    </div>
+
+<script>
+const topics = [
+    "Geometry",
+    "Abstract Algebra",
+    "Information Theory",
+    "Differential Equations",
+    "Category Theory"
+];
+
+class ParticleSystem {
+    constructor() {
+        this.particles = [];
+    }
+
+    createParticle(x, y) {
+        const particle = document.createElement('div');
+        particle.className = 'sparkle';
+        document.body.appendChild(particle);
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 50 + Math.random() * 100;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity;
+
+        particle.style.left = `${x}px`;
+        particle.style.top = `${y}px`;
+        particle.style.setProperty('--tx', `${tx}px`);
+        particle.style.setProperty('--ty', `${ty}px`);
+
+        particle.animate([
+            { transform: 'scale(0) rotate(0deg)', opacity: 1 },
+            { transform: `translate(${tx}px, ${ty}px) scale(1) rotate(360deg)`, opacity: 0 }
+        ], {
+            duration: 1000,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+        }).onfinish = () => particle.remove();
+    }
+
+    createLightning() {
+        const lightning = document.createElement('div');
+        lightning.className = 'lightning';
+        
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 100 200');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        
+        const x1 = 50;
+        const points = [];
+        for (let y = 0; y < 200; y += 40) {
+            const x = x1 + (Math.random() - 0.5) * 40;
+            points.push(`${x},${y}`);
+        }
+        path.setAttribute('d', `M${points.join(' L')}`);
+        path.setAttribute('stroke', 'var(--accent)');
+        path.setAttribute('stroke-width', '3');
+        path.setAttribute('fill', 'none');
+        
+        svg.appendChild(path);
+        lightning.appendChild(svg);
+        
+        const x = Math.random() * window.innerWidth;
+        lightning.style.left = `${x}px`;
+        
+        document.querySelector('.lightning-container').appendChild(lightning);
+        
+        lightning.animate([
+            { opacity: 0 },
+            { opacity: 0.8 },
+            { opacity: 0.2 },
+            { opacity: 0.9 },
+            { opacity: 0 }
+        ], {
+            duration: 500,
+            easing: 'ease-out'
+        }).onfinish = () => lightning.remove();
+    }
+
+    burst(x, y, count = 20) {
+        for (let i = 0; i < count; i++) {
+            this.createParticle(x, y);
+        }
+        const lightningCount = Math.floor(Math.random() * 3) + 1;
+        for (let i = 0; i < lightningCount; i++) {
+            setTimeout(() => this.createLightning(), i * 100);
+        }
+    }
+}
+
+class BrilliancyGame {
+    constructor() {
+        this.ideas = [];
+        this.gameActive = false;
+        this.warmupTimer = 10;
+        this.gameTimer = 600;
+        this.currentTopic = '';
+        this.particles = new ParticleSystem();
+        this.serverUrl = 'https://brilliancy.live';
+        
+        this.setupEventListeners();
+        this.initializeTopicSelector();
+    }
+
+    initializeTopicSelector() {
+        // Add topic selection UI to the landing page
+        const landingDiv = document.querySelector('.landing');
+        const startBtn = document.querySelector('.landing .start-btn');
+        
+        const topicSelector = document.createElement('div');
+        topicSelector.className = 'topic-selector';
+        topicSelector.innerHTML = `
+            <div class="topic-options">
+                <h3>Choose a Topic</h3>
+                <div class="preset-topics">
+                    ${topics.map(topic => `
+                        <button class="topic-btn">${topic}</button>
+                    `).join('')}
+                </div>
+                <div class="custom-topic">
+                    <input type="text" 
+                           class="custom-topic-input" 
+                           placeholder="Or enter your own topic..."
+                           maxlength="50">
+                </div>
+            </div>
+        `;
+        
+        // Insert before the start button
+        landingDiv.insertBefore(topicSelector, startBtn);
+
+        // Add event listeners for topic selection
+        const topicBtns = document.querySelectorAll('.topic-btn');
+        const customInput = document.querySelector('.custom-topic-input');
+
+        topicBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                topicBtns.forEach(b => b.classList.remove('selected'));
+                btn.classList.add('selected');
+                customInput.value = '';
+                this.currentTopic = btn.textContent;
+            });
+        });
+
+        customInput.addEventListener('input', (e) => {
+            topicBtns.forEach(btn => btn.classList.remove('selected'));
+            this.currentTopic = e.target.value;
+        });
+
+        // Select first topic by default
+        topicBtns[0].click();
+    }
+
+    startGame() {
+        if (!this.currentTopic.trim()) {
+            this.showFeedbackToast('Please select or enter a topic first!');
+            return;
+        }
+
+        this.ideas = [];
+        this.gameActive = true;
+        
+        document.querySelector('.landing').style.display = 'none';
+        document.querySelector('.game').style.display = 'flex';
+        document.querySelector('.final-score').style.display = 'none';
+        
+        setTimeout(() => {
+            document.querySelector('.game').style.opacity = '1';
+        }, 100);
+
+        document.querySelector('.topic').textContent = `Topic: ${this.currentTopic}`;
+        
+        this.startWarmup();
+    }
+    setupEventListeners() {
+        document.querySelectorAll('.start-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                this.particles.burst(e.clientX, e.clientY, 30);
+                this.startGame();
+            });
+        });
+
+        document.querySelector('.idea-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && this.gameActive) {
+                this.particles.burst(e.clientX, e.clientY, 20);
+                this.submitIdea(e.target.value);
+                e.target.value = '';
+            }
+        });
+    }
+
+    startWarmup() {
+        const timerDisplay = document.querySelector('.timer');
+        const warmupInterval = setInterval(() => {
+            this.warmupTimer--;
+            timerDisplay.textContent = `Countdown to Brilliance: ${this.warmupTimer}`;
+            
+            if (this.warmupTimer <= 0) {
+                this.particles.burst(window.innerWidth / 2, window.innerHeight / 2, 50);
+                clearInterval(warmupInterval);
+                this.startMainTimer();
+            }
+        }, 1000);
+    }
+
+    startMainTimer() {
+        const timerDisplay = document.querySelector('.timer');
+        const gameInterval = setInterval(() => {
+            this.gameTimer--;
+            const minutes = Math.floor(this.gameTimer / 60);
+            const seconds = this.gameTimer % 60;
+            timerDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (this.gameTimer <= 0) {
+                this.particles.burst(window.innerWidth / 2, window.innerHeight / 2, 100);
+                clearInterval(gameInterval);
+                this.endGame();
+            }
+        }, 1000);
+    }
+
+    async submitIdea(ideaText) {
+        if (!ideaText.trim()) return;
+
+        const score = await this.scoreIdea(ideaText);
+        this.ideas.push({ text: ideaText, score });
+        
+        const rect = document.querySelector('.idea-input').getBoundingClientRect();
+        this.particles.burst(rect.right, rect.top + rect.height / 2, Math.floor(score / 5));
+        
+        this.updateScoreboard();
+    }
+
+    async scoreIdea(idea) {
+        try {
+            const response = await fetch(`${this.serverUrl}/judge`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({
+                    idea: idea,
+                    topic: this.currentTopic
+                })
+            });
+
+            if (!response.ok) {
+                console.error('Server response error:', response.status);
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                // Update the idea entry with both score and feedback
+                return {
+                    text: idea,
+                    score: Math.round(data.score),
+                    message: data.message,
+                    timestamp: data.timestamp
+                };
+            } else {
+                console.error('Error from judge:', data.error);
+                return this.getFallbackScore(idea);
+            }
+        } catch (error) {
+            console.error('Error scoring idea:', error);
+            return this.getFallbackScore(idea);
+        }
+    }
+
+    getFallbackScore(idea) {
+        // Fallback scoring logic in case of server issues
+        const baseScore = Math.random() * 50 + 50;
+        const lengthBonus = Math.min(idea.length / 20, 10);
+        const finalScore = Math.min(Math.round(baseScore + lengthBonus), 100);
+        
+        return {
+            text: idea,
+            score: finalScore,
+            message: 'Scored locally (server unavailable)',
+            timestamp: new Date().toISOString()
+        };
+    }
+
+    showFeedbackToast(message) {
+        const toast = document.createElement('div');
+        toast.className = 'feedback-toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        // Trigger animation
+        setTimeout(() => toast.classList.add('show'), 10);
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 500);
+        }, 3000);
+    }
+
+    async submitIdea(ideaText) {
+        if (!ideaText.trim()) return;
+
+        const loadingToast = document.createElement('div');
+        loadingToast.className = 'feedback-toast show';
+        loadingToast.textContent = 'Judging your idea...';
+        document.body.appendChild(loadingToast);
+
+        const ideaResult = await this.scoreIdea(ideaText);
+        
+        loadingToast.remove();
+        this.ideas.push(ideaResult);
+        
+        const rect = document.querySelector('.idea-input').getBoundingClientRect();
+        this.particles.burst(rect.right, rect.top + rect.height / 2, Math.floor(ideaResult.score / 5));
+        
+        this.updateScoreboard();
+        this.showFeedbackToast(ideaResult.message);
+    }
+
+    updateScoreboard() {
+        const ideasList = document.querySelector('.ideas-list');
+        const averageDisplay = document.querySelector('.average-score');
+        
+        ideasList.innerHTML = this.ideas.map(idea => `
+            <div class="idea-entry">
+                <p>${idea.text}</p>
+                <div class="score">Score: ${idea.score}</div>
+                <div class="feedback">${idea.message}</div>
+            </div>
+        `).join('');
+
+        const topThreeAverage = this.calculateTopThreeAverage();
+        averageDisplay.textContent = `Average top 3: ${topThreeAverage}`;
+    }
+    
+    calculateTopThreeAverage() {
+        const sortedScores = [...this.ideas].sort((a, b) => b.score - a.score);
+        const topThree = sortedScores.slice(0, 3);
+        if (topThree.length === 0) return 0;
+        
+        const average = topThree.reduce((sum, idea) => sum + idea.score, 0) / topThree.length;
+        return Math.round(average);
+    }
+
+    endGame() {
+        this.gameActive = false;
+        const finalScore = this.calculateTopThreeAverage();
+        
+        document.querySelector('.final-score').style.display = 'block';
+        document.querySelector('.final-score-value').textContent = finalScore;
+    }
+}
+
+// Initialize game
+const game = new BrilliancyGame();
+</script>
+</body></html>
